@@ -1,0 +1,236 @@
+#####    :kivy 1.8
+
+############ Root (first-tier)
+
+# these are commented because, if not, "MainForm" could appear as a 
+# property (not a child) of RootWindow. It's children status is given by
+# adding MainForm in the .py through .add_widget()
+#<RootWindow>
+#    MainForm
+
+############## Forms (second-tier)
+
+<MainForm@BoxLayout>:
+    orientation: 'vertical'
+    padding: 20
+    size: self.size
+    pos: self.pos
+	SearchBox:
+		id: search_box
+		size_hint: 1, None
+        height: "50dp"
+    BoxLayout:
+        BoxLayout:
+            size_hint: 20, 1
+            orientation: 'vertical'
+            #RedLbl:
+             #   label_text: "Current Keywords"
+              #  size_hint: 1, None
+               # height: "40dp"
+			#ScrollView:
+			KeywordPanel:
+				id: keyword_panel
+				TrashCan
+				#FloatingKeyword:
+				#	text: "keyword 1"
+				#	pos: (50, self.parent.height/2.)
+					#pos: (50, 500)
+					#pos_hint: {"x": 0.5, "y":0.5}
+				#	font_size: 20
+				#FloatingKeyword:
+				#	text: "keyword 2"
+				#	pos: (200, 300)
+				#	font_size: 15
+		ImagesPanel:
+		    id: images_panel
+		    size_hint: 80, 1
+            orientation: 'vertical'
+            GridLayout:
+                rows: 3
+                AsyncImage:
+                    source: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT7CaS5AwDH6xDxxErz7KRxphA7M6wgkKOTjJ4eQdINCRYt25MSvtZqpw'
+                #AsyncImage:
+                 #   source: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSlBwqQ4jggvaULgaiiXQTf7atA6RAiZdrYX_OZgtbjXBX-4DtMDL_Af-AA'
+        #BoxLayout:
+         #   size_hint: 60, 1
+          #  orientation: 'vertical'
+            #RedLbl:
+             #   label_text: "Images"
+              #  size_hint: 1, None
+               # height: "40dp"
+            BoxLayout
+	NavigationControls:
+		id: navigation_controls
+		#search_box: search_box
+	#BoxLayout:
+	#	size_hint: 1, None
+    #    height: "30dp"
+    #    Btn:
+    #        text: "<<"
+    #    Btn:
+    #        text: "||"
+    #    Btn:
+    #        text: "o"
+	#	Btn:
+    #        text: ">>"
+
+
+
+############# utilities (3rd tier)
+    
+<Btn>
+    background_color: 1, 0, 0, 1
+    size_hint: 1, None
+    size: 1, "30dp"
+
+<BlackBtn>
+    background_color: 0, 0, 0, 1
+    #size_hint: 1, None
+    #height: "30dp"
+
+<CustomLayout@FloatLayout>
+    canvas.before:
+        Color:
+            rgba: 0, 1, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Lbl>
+    canvas.before:
+        Color: 
+            rgb: 0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<CheckableItem>
+    CheckBox:
+        size_hint: None, 1
+        size: "20dp", 1
+    Label:
+        id: label
+        text: root.item_label
+
+<RedLbl>
+    label_text: "red label"
+    text: "[color=ff3333][b]{label}[/b][/color]".format(label=root.label_text)
+    markup: True
+    
+<EntryField>
+    orientation: 'vertical'
+	text: input_from_user.text
+	#on_text_validate: None
+    Lbl: 
+        text: root.field_label
+        size_hint: 1, None
+        height: "20dp"
+    TextInput:
+        id: input_from_user
+        text: root.user_input
+        size_hint: 1, None
+        height: "30dp"
+        multiline: False
+		#on_text_validate: root.on_enter()
+
+<DraggableWidget>:
+    size_hint: None, None
+
+###### Policies
+
+<FloatingKeyword@DraggableWidget>:
+	text: "keyword"
+	#size: (50,50)
+	size: lbl.texture_size
+	font_size: 15#12
+	color: (1,1,1,1)
+	#canvas:
+	#	Color:
+	#		rgb: [0.2, 0.2, 0.2]
+	#	Ellipse:
+	#		pos: self.pos
+	#		size: self.size
+	Label:
+		id: lbl
+		size: self.texture_size
+		#size: root.size
+		text: root.text
+		font_size: root.font_size
+		color: root.color
+
+<TrashCan@BoxLayout>:
+	#img_size: "100dp"
+	#size: self.parent.size[0], self.img_size
+	#size_hint: None, None
+	#pos_hint: {"x":1., "y":0}
+	#opacity: 0.5
+	#my_parent: self.parent
+	canvas.before:
+        Color: 
+            rgb: 1, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	#BoxLayout
+	#Image:
+	#	id: Img
+	#	source:"trashcan.png"
+	#	size: root.img_size, root.img_size
+	#	size_hint: None, None
+	#BoxLayout
+
+<KeywordPanel>:
+	size: 100, 100
+	on_size: self.reposition_children
+	on_pos: self.reposition_children
+	#on_size: self.reposition_children
+	#on_pos: self.reposition_children
+	#my_size: self.size
+	#canvas.before:
+     #   Color: 
+      #      rgb: 0, 0, 0
+       # Rectangle:
+        #    pos: self.pos
+         #   size: self.size
+
+#<ImagesPanel>:
+    #on_size: self.reposition_children
+
+
+<SearchBox@BoxLayout>:
+	#text: search_keywords.text
+	text: input_from_user.text
+	TextInput:
+	    id: input_from_user
+	    size_hint: 90, None
+	    height: "30dp"
+	    multiline: False
+		hint_text: "Enter search keywords"
+		keyboard_suggestions: True
+		on_text_validate: root.button_pressed()
+    Btn:
+		id: search_button
+        text: "Search"
+        size_hint: 10, None
+		on_press: root.button_pressed()
+
+<NavigationControls>:
+	size_hint: 1, None
+    height: "30dp"
+    #Btn:
+     #   id: back_button
+      #  text: "<<"
+       # on_press: root.go_back()
+    Btn:
+		id: pause_button
+        text: "||"
+		on_press: root.toggle_pause()
+    Btn:
+		id: stop_button
+        text: "o"
+		on_press: root.toggle_stop()
+	#Btn:
+	 #   id: forward_button
+      #  text: ">>"
+       # on_press: go_forward()
+	
